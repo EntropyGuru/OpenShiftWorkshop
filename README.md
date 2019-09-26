@@ -110,7 +110,7 @@ az group create --name OpenShiftTestRG --location northeurope
 while in the folder where your local fork resides
 
 ```bash
-az group deployment create --resource-group OpenShiftTestRG --template-file azuredeploy.json --parameters @azuredeploy.parameters.local.json --no-wait
+az group deployment create --resource-group OpenShiftTestRG --template-file azuredeploy.json --parameters @azuredeploy.parameters.json --no-wait
 ```
 
 Monitor deployment via CLI or Portal and get the console URL from outputs of successful deployment which will look something like (if using sample parameters file and "North Europe" location):
