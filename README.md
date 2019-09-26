@@ -1,27 +1,5 @@
 # OpenShift Origin Deployment Template
 
-## NOTE: Structural change to Repo
-
-The master branch will now contain the most current release of OpenShift Origin with experimental items.  This may cause instability but will include new things or try new things.
-
-Re-introduced non-HA deployment option with 1 Master node.
-
-We now have branches for the stable releases:
-- release-3.6
-- release-3.7
-- release-3.9
-- azurestack-release-3.7
-- azurestack-release-3.9
-- etc.
-
-Bookmark [aka.ms/OpenShift](http://aka.ms/OpenShift) for future reference.
-
-For the **OpenShift Container Platform** refer to https://github.com/Microsoft/openshift-container-platform
-
-Additional documentation for deploying OpenShift in Azure can be found here: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/openshift-get-started
-
-Change log located in CHANGELOG.md
-
 ## OpenShift Origin 3.9 with Username / Password
 
 To view all the default templates, please select from the openshift project.
