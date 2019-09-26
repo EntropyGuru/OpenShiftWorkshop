@@ -36,9 +36,9 @@ You will need to create a Key Vault to store your SSH Private Key that will then
 
 **Create Key Vault using Azure CLI 2.0**<br/>
   a.  Create new Resource Group: az group create -n \<name\> -l \<location\><br/>
-         Ex: `az group create -n ResourceGroupName -l 'East US'`<br/>
+         Ex: `az group create -n ResourceGroupName -l 'North Europe'`<br/>
   b.  Create Key Vault: az keyvault create -n \<vault-name\> -g \<resource-group\> -l \<location\> --enabled-for-template-deployment true<br/>
-         Ex: `az keyvault create -n KeyVaultName -g ResourceGroupName -l 'East US' --enabled-for-template-deployment true`<br/>
+         Ex: `az keyvault create -n KeyVaultName -g ResourceGroupName -l 'North Europe' --enabled-for-template-deployment true`<br/>
   c.  Create Secret: az keyvault secret set --vault-name \<vault-name\> -n \<secret-name\> --file \<private-key-file-name\><br/>
          Ex: `az keyvault secret set --vault-name KeyVaultName -n SecretName --file ~/.ssh/id_rsa`<br/>
 
@@ -51,7 +51,7 @@ Assigning permissions to the entire Subscription is the easiest method but does 
 **Azure CLI 2.0**
 
 **Create Service Principal and assign permissions to Subscription**<br/>
-  a.  az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --scopes /subscriptions/\<subscription_id\><br/>
+az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --scopes /subscriptions/\<subscription_id\><br/>
       Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --password Pass@word1 --role contributor --scopes /subscriptions/555a123b-1234-5ccc-defgh-6789abcdef01`<br/>
 
 You will get an output similar to:
