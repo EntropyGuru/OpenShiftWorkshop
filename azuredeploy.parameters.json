@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "masterVmSize": {
+            "value": "Standard_D8s_v3"
+        },
+        "nodeVmSize": {
+            "value": "Standard_D8s_v3"
+        },
+        "infraVmSize": {
+            "value": "Standard_D8s_v3"
+        },
+        "storageKind": {
+            "value": "managed"
+        },
+        "openshiftClusterPrefix": {
+            "value": "mycluster"
+        },
+        "masterInstanceCount": {
+            "value": 1
+        },
+        "infraInstanceCount": {
+            "value": 1
+        },
+        "nodeInstanceCount": {
+            "value": 1
+        },
+        "dataDiskSize": {
+            "value": 128
+        },
+        "adminUsername": {
+            "value": "clusteradmin"
+        },
+        "openshiftPassword": {
+            "value": "P@ssw0rd_2019"
+        },
+        "sshPublicKey": {
+            "value": ""
+        },
+        "enableMetrics": {
+            "value": "true"
+        },
+        "enableLogging": {
+            "value": "true"
+        },
+        "keyVaultResourceGroup": {
+            "value": ""
+        },
+        "keyVaultName": {
+            "value": ""
+        },
+        "keyVaultSecret": {
+            "value": ""
+        },
+        "enableAzure": {
+            "value": "true"
+        },
+        "aadClientId": {
+            "value": ""
+        },
+        "aadClientSecret": {
+            "value": ""
+        },
+        "defaultSubDomainType": {
+            "value": "nipio"
+        },
+        "defaultSubDomain": {
+            "value": "contoso.com"
+        }
+    }
+}
