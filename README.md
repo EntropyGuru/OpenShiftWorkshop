@@ -51,8 +51,8 @@ Assigning permissions to the entire Subscription is the easiest method but does 
 **Azure CLI 2.0**
 
 **Create Service Principal and assign permissions to Subscription**<br/>
-az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --scopes /subscriptions/\<subscription_id\><br/>
-      Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --password Pass@word1 --role contributor --scopes /subscriptions/555a123b-1234-5ccc-defgh-6789abcdef01`<br/>
+az ad sp create-for-rbac -n \<friendly name\> --role contributor --scopes /subscriptions/\<subscription_id\><br/>
+      Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --role contributor --scopes /subscriptions/555a123b-1234-5ccc-defgh-6789abcdef01`<br/>
 
 You will get an output similar to:
 
