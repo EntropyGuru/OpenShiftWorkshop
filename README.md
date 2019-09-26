@@ -40,14 +40,7 @@ From a Linux or Mac, you can just use the ssh-keygen command. Once you are finis
 
 You will need to create a Key Vault to store your SSH Private Key that will then be used as part of the deployment.
 
-1. **Create Key Vault using Powershell**<br/>
-  a.  Create new resource group: New-AzureRMResourceGroup -Name 'ResourceGroupName' -Location 'West US'<br/>
-  b.  Create key vault: New-AzureRmKeyVault -VaultName 'KeyVaultName' -ResourceGroup 'ResourceGroupName' -Location 'West US'<br/>
-  c.  Create variable with sshPrivateKey: $securesecret = ConvertTo-SecureString -String '[copy ssh Private Key here - including line feeds]' -AsPlainText -Force<br/>
-  d.  Create Secret: Set-AzureKeyVaultSecret -Name 'SecretName' -SecretValue $securesecret -VaultName 'KeyVaultName'<br/>
-  e.  Enable the Key Vault for Template Deployments: Set-AzureRmKeyVaultAccessPolicy -VaultName 'KeyVaultName' -ResourceGroupName 'ResourceGroupName' -EnabledForTemplateDeployment
-
-2. **Create Key Vault using Azure CLI 2.0**<br/>
+**Create Key Vault using Azure CLI 2.0**<br/>
   a.  Create new Resource Group: az group create -n \<name\> -l \<location\><br/>
          Ex: `az group create -n ResourceGroupName -l 'East US'`<br/>
   b.  Create Key Vault: az keyvault create -n \<vault-name\> -g \<resource-group\> -l \<location\> --enabled-for-template-deployment true<br/>
@@ -63,19 +56,9 @@ Assigning permissions to the entire Subscription is the easiest method but does 
    
 **Azure CLI 2.0**
 
-1. **Create Service Principal and assign permissions to Subscription**<br/>
+**Create Service Principal and assign permissions to Subscription**<br/>
   a.  az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --scopes /subscriptions/\<subscription_id\><br/>
       Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --password Pass@word1 --role contributor --scopes /subscriptions/555a123b-1234-5ccc-defgh-6789abcdef01`<br/>
-
-2. **Create Service Principal and assign permissions to Resource Group**<br/>
-  a.  If you use this option, you must have created the Resource Group first.  Be sure you don't create any resources in this Resource Group before deploying the cluster.<br/>
-  b.  az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --scopes /subscriptions/\<subscription_id\>/resourceGroups/\<Resource Group Name\><br/>
-      Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --password Pass@word1 --role contributor --scopes /subscriptions/555a123b-1234-5ccc-defgh-6789abcdef01/resourceGroups/00000test`<br/>
-
-3. **Create Service Principal without assigning permissions to Resource Group**<br/>
-  a.  If you use this option, you will need to assign permissions to either the Subscription or the newly created Resource Group shortly after you initiate the deployment of the cluster or the post installation scripts will fail when configuring Azure as the Cloud Provider.<br/>
-  b.  az ad sp create-for-rbac -n \<friendly name\> --password \<password\> --role contributor --skip-assignment<br/>
-      Ex: `az ad sp create-for-rbac -n openshiftcloudprovider --password Pass@word1 --role contributor --skip-assignment`<br/>
 
 You will get an output similar to:
 
@@ -122,14 +105,13 @@ The appId is used for the aadClientId parameter.
 ## Deploy Template
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2Fopenshift-origin%2Fmaster%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2Fopenshift-origin%2Fmaster%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/AzureGov.png"/></a>
 
 Once you have collected all of the prerequisites for the template, you can deploy the template by populating the *azuredeploy.parameters.local.json* file and executing Resource Manager deployment commands with PowerShell or the CLI.
 
 For Azure CLI 2.0, sample commands:
 
 ```bash
-az group create --name OpenShiftTestRG --location WestUS2
+az group create --name OpenShiftTestRG --location northeurope
 ```
 while in the folder where your local fork resides
 
@@ -137,9 +119,9 @@ while in the folder where your local fork resides
 az group deployment create --resource-group OpenShiftTestRG --template-file azuredeploy.json --parameters @azuredeploy.parameters.local.json --no-wait
 ```
 
-Monitor deployment via CLI or Portal and get the console URL from outputs of successful deployment which will look something like (if using sample parameters file and "West US 2" location):
+Monitor deployment via CLI or Portal and get the console URL from outputs of successful deployment which will look something like (if using sample parameters file and "North Europe" location):
 
-`https://me-master1.westus2.cloudapp.azure.com/console`
+`https://me-master1.northeurope.cloudapp.azure.com/console`
 
 The cluster will use self-signed certificates. Accept the warning and proceed to the login page.
 
@@ -150,15 +132,6 @@ If you chose to deploy metrics and / or logging, make sure you select an appropr
 The OpenShift Ansible playbook does take a while to run when using VMs backed by Standard Storage. VMs backed by Premium Storage are faster. If you want Premimum Storage, select a DS or GS series VM.
 <hr />
 Be sure to follow the OpenShift instructions to create the necessary DNS entry for the OpenShift Router for access to applications.
-
-### TROUBLESHOOTING
-
-If you encounter an error during deployment of the cluster, please view the deployment status. The following Error Codes will help to narrow things down.
-
-1. Exit Code 5: Unable to provision Docker Thin Pool Volume
-
-For further troubleshooting, please SSH into your master0 node on port 2200. You will need to be root **(sudo su -)** and then navigate to the following directory: **/var/lib/waagent/custom-script/download**<br/><br/>
-You should see a folder named '0' and '1'. In each of these folders, you will see two files, stderr and stdout. You can look through these files to determine where the failure occurred.
 
 ## Post-Deployment Operations
 
